@@ -25,54 +25,99 @@ const caption = document.getElementById('caption')
 const carouselNav = document.getElementById('carouselNav')
 const prev = document.getElementById('prevButton')
 const next = document.getElementById('nextButton')
-
-function indicator(){
-  const indicator = document.createElement('span')
-  indicator.classList.add('carousel-indicator')
-  carouselNav.appendChild(indicator);
-}
-
-
-function slide(imgSrc) {
-  const slide = document.createElement('div')
-  slide.classList.add('carousel-slide');
-  const img = document.createElement('img')
-  img.src = imgSrc
-  slide.appendChild(img) 
-  carouselTrack.appendChild(slide);
-}
-
-
-for (let index = 0; index < images.length; index++) {
-  slide(images[index].url)
-  indicator();
-  caption.innerText = images[index].caption;
-}
+const autoPlayButton = document.getElementById('autoPlayButton');
+const timerDisplay = document.getElementById('timerDisplay');
 
 let currentIndex = 0;
-const slideWidth = document.querySelector('.carousel-slide').offsetWidth;
+let autoPlayInterval = null;
+const autoPlaySpeed = 5; 
 
-const indicatorActive = document.querySelectorAll('.carousel-indicator')
-function activeIndicator(i){
-  indicatorActive.forEach(indi => indi.classList.remove('active'));
-  indicatorActive[i].classList.add('active')
+images.forEach((image, index) => {
+  const slide = document.createElement('div');
+  slide.classList.add('carousel-slide');
+  if (index === 0) slide.classList.add('active'); 
+
+  const img = document.createElement('img');
+  img.src = image.url;
+  img.alt = image.caption;
+  caption.innerText=image.caption;
+
+  slide.appendChild(img);
+  carouselTrack.appendChild(slide);
+
+
+
+  const indicator = document.createElement('div');
+  indicator.classList.add('carousel-indicator');
+  if (index === 0) indicator.classList.add('active');
+  indicator.addEventListener('click', () => goToSlide(index));
+  carouselNav.appendChild(indicator);
+});
+
+
+function updateSlide() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const indicators = document.querySelectorAll('.carousel-indicator');
+
+  slides.forEach(slide => slide.classList.remove('active'));
+  indicators.forEach(indicator => indicator.classList.remove('active'));
+
+  slides[currentIndex].classList.add('active');
+  indicators[currentIndex].classList.add('active');
+
+  caption.innerText = images[currentIndex].caption;
+
+  const slideWidth = slides[0].offsetWidth;
+  carouselTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
 }
-activeIndicator(currentIndex);
-
+function goToSlide(index) {
+  currentIndex = index;
+  updateSlide();
+}
 
 next.addEventListener('click', () => {
-  if (currentIndex < images.length - 1) { 
-    currentIndex++; 
-    carouselTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  if (currentIndex < images.length - 1) {
+    currentIndex++;
+  } else {
+    currentIndex = 0;
   }
-  caption.innerText = images[currentIndex].caption;
-  activeIndicator(currentIndex);
+  updateSlide();
 });
+
 prev.addEventListener('click', () => {
-  if (currentIndex > 0) { 
-    currentIndex--; 
-    carouselTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  if (currentIndex > 0) {
+    currentIndex--;
+  } else {
+    currentIndex = images.length - 1;
   }
-  caption.innerText = images[currentIndex].caption;
-  activeIndicator(currentIndex);
+  updateSlide();
 });
+
+function startAutoPlay() {
+  if (!autoPlayInterval) {
+    autoPlayButton.innerText = "Stop Auto Play";
+    autoPlayInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateSlide();
+      timerDisplay.innerText="Next Slide in "+autoPlaySpeed
+    }, autoPlaySpeed * 1000);
+  }
+}
+
+function stopAutoPlay() {
+  clearInterval(autoPlayInterval);
+  timerDisplay.innerText=""
+  autoPlayInterval = null;
+  autoPlayButton.innerText = "Start Auto Play";
+}
+
+autoPlayButton.addEventListener('click', () => {
+  if (autoPlayInterval) {
+    stopAutoPlay();
+  } else {
+    startAutoPlay();
+  }
+});
+
+startAutoPlay();
+
