@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="container">
+            <section id="todo">
+                <h2>TODO</h2>
+                <div id="todo-list" class="list"></div>
+                <input type="text" id="todo-input" placeholder="Add Task">
+                <button id="add-todo" onclick="addTask('todo')">Add</button>
+            </section>
+            <section id="process">
+                <h2>Process</h2>
+                <div id="process-list" class="list"></div>
+                <input type="text" id="process-input" placeholder="Add Task">
+                <button id="add-process"  onclick="addTask('process')">Add</button>
+            </section>
+            <section id="complete">
+                <h2>Complete</h2>
+                <div id="complete-list" class="list"></div>
+                <input type="text" id="complete-input" placeholder="Add Task">
+                <button id="add-complete"  onclick="addTask('complete')">Add</button>
+            </section>
+        </div>
+        <script src="script.js"></script>
+</body>
+</html>

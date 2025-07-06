@@ -1,0 +1,11 @@
+kanban board
+add task
+edit task
+delete task
+add board
+edit board
+delete board
+board color
+sorting task
+board count of task
+time on every task

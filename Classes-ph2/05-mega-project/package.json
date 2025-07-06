@@ -1,0 +1,25 @@
+{
+  "name": "05-mega-project",
+  "version": "1.0.0",
+  "description": "create aws account\r     search for EC2 (a linux muchine to deploye the server)\r         connect with github \r             cd project\r             npm i\r             npm start\r     ip of linux machine  (10.1.1.1)\r         domain(dj.dev) point to the machine\r             containersation (for scale up, load balancing)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mailgen": "^2.0.29",
+    "mongoose": "^8.13.2",
+    "multer": "^1.4.5-lts.2",
+    "nodemailer": "^6.10.0",
+    "prettier": "^3.5.3"
+  }
+}
